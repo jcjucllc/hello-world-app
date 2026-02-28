@@ -7,6 +7,8 @@
 </head>
 <body>
   <h1 id="greeting">Loading...</h1>
+  <input id="nameInput" type="text" placeholder="Enter a name" />
+  <button onclick="updateName()">Submit</button>
   <script>
     fetch('/api/greeting')
       .then(res => res.json())
@@ -16,6 +18,23 @@
       .catch(() => {
         document.getElementById('greeting').textContent = 'Error loading greeting.';
       });
+
+    function updateName() {
+      const name = document.getElementById('nameInput').value;
+      fetch('/api/greeting', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('greeting').textContent = `Hello, ${data.name}!`;
+          document.getElementById('nameInput').value = '';
+        })
+        .catch(() => {
+          document.getElementById('greeting').textContent = 'Error updating name.';
+        });
+    }
   </script>
 </body>
 </html>
