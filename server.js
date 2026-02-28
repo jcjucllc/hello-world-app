@@ -5,7 +5,6 @@ const { Pool } = require('pg');
 const app = express();
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-app.use(express.static('public'));
 app.use(express.json());
 
 app.get('/api/greeting', async (req, res) => {
